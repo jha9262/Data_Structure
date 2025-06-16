@@ -1,0 +1,72 @@
+import java.util.Scanner;
+
+public class BinaryTreeApp {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        BinaryTree tree = new BinaryTree();
+        tree.populate(scanner);   // Input tree from user
+        tree.display();           // Display tree (inorder)
+        scanner.close();
+    }
+}
+
+class BinaryTree {
+
+    private static class Node {
+        int value;
+        Node left;
+        Node right;
+
+        private Node(int value) {
+            this.value = value;
+        }
+    }
+
+    private Node root;
+
+    // Populates the binary tree via user input
+    public void populate(Scanner scanner) {
+        System.out.println("Enter the root node value:");
+        int value = scanner.nextInt();
+        root = new Node(value);
+        populate(scanner, root);
+    }
+
+    private void populate(Scanner scanner, Node node) {
+        System.out.println("Do you want to enter left node of " + node.value + "? (true/false)");
+        boolean left = scanner.nextBoolean();
+        if (left) {
+            System.out.println("Enter the value of left node of " + node.value + ":");
+            int value = scanner.nextInt();
+            node.left = new Node(value);
+            populate(scanner, node.left);
+        }
+
+        System.out.println("Do you want to enter right node of " + node.value + "? (true/false)");
+        boolean right = scanner.nextBoolean();
+        if (right) {
+            System.out.println("Enter the value of right node of " + node.value + ":");
+            int value = scanner.nextInt();
+            node.right = new Node(value);
+            populate(scanner, node.right);
+        }
+    }
+
+    // Display method - Inorder Traversal
+    public void display() {
+        System.out.println("Inorder Traversal of Binary Tree:");
+        display(root);
+        System.out.println(); // newline
+    }
+
+    private void display(Node node) {
+        if (node == null) {
+            return;
+        }
+
+        display(node.left);
+        System.out.print(node.value + " ");
+        display(node.right);
+    }
+}
